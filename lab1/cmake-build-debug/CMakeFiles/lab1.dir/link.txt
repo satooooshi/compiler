@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/cc -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/lab1.dir/main.c.o CMakeFiles/lab1.dir/myimpl.c.o CMakeFiles/lab1.dir/prog1.c.o CMakeFiles/lab1.dir/slp.c.o CMakeFiles/lab1.dir/util.c.o  -o lab1 

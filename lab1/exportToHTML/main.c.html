@@ -1,0 +1,78 @@
+<html>
+<head>
+<title>main.c</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #808080;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #bbb529;}
+.s3 { color: #6a8759;}
+.s4 { color: #cc7832; font-weight: bold;}
+.s5 { color: #cc7832;}
+.s6 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.c</font>
+</center></td></tr></table>
+<pre><span class="s0">/* You shold implement 'maxargs' and 'interp' in myimpl.c. 
+ * Please don't modify this file. 
+*/</span>
+
+<span class="s2">#include </span><span class="s3">&lt;stdio.h&gt;</span>
+<span class="s2">#include </span><span class="s3">&lt;assert.h&gt;</span>
+<span class="s2">#include </span><span class="s3">&lt;stdlib.h&gt;</span>
+<span class="s2">#include </span><span class="s3">&quot;prog1.h&quot;</span>
+
+<span class="s4">int </span><span class="s1">maxargs(A_stm stm)</span><span class="s5">;</span>
+<span class="s4">void </span><span class="s1">interp(A_stm stm)</span><span class="s5">;</span>
+
+<span class="s4">int </span><span class="s1">main(</span><span class="s4">int </span><span class="s1">argc</span><span class="s5">, </span><span class="s4">char </span><span class="s1">**argv)</span>
+{
+	<span class="s4">int </span><span class="s1">args</span><span class="s5">;</span>
+	<span class="s4">int </span><span class="s1">test_num</span><span class="s5">;</span>
+
+	<span class="s1">assert(argc == </span><span class="s6">2</span><span class="s1">)</span><span class="s5">;</span>
+	<span class="s1">test_num = atoi(argv[</span><span class="s6">1</span><span class="s1">])</span><span class="s5">;</span>
+
+	<span class="s4">switch</span><span class="s1">(test_num)</span>
+	{
+		<span class="s4">case </span><span class="s6">0</span><span class="s1">:</span>
+			printf(<span class="s3">&quot;prog</span><span class="s5">\n</span><span class="s3">&quot;</span><span class="s1">)</span><span class="s5">;</span>
+			<span class="s1">args = maxargs(prog())</span><span class="s5">;</span>
+			<span class="s1">printf(</span><span class="s3">&quot;args: %d</span><span class="s5">\n</span><span class="s3">&quot;</span><span class="s5">,</span><span class="s1">args)</span><span class="s5">;</span>
+			<span class="s1">interp(prog())</span><span class="s5">;</span>
+
+			<span class="s1">printf(</span><span class="s3">&quot;prog_prog</span><span class="s5">\n</span><span class="s3">&quot;</span><span class="s1">)</span><span class="s5">;</span>
+			<span class="s1">args = maxargs(prog_prog())</span><span class="s5">;</span>
+			<span class="s1">printf(</span><span class="s3">&quot;args: %d</span><span class="s5">\n</span><span class="s3">&quot;</span><span class="s5">,</span><span class="s1">args)</span><span class="s5">;</span>
+			<span class="s1">interp(prog_prog())</span><span class="s5">;</span>
+			<span class="s4">break</span><span class="s5">;</span>
+		<span class="s4">case </span><span class="s6">1</span><span class="s1">: </span>
+			printf(<span class="s3">&quot;prog_prog</span><span class="s5">\n</span><span class="s3">&quot;</span><span class="s1">)</span><span class="s5">;</span>
+			<span class="s1">args = maxargs(prog_prog())</span><span class="s5">;</span>
+			<span class="s1">printf(</span><span class="s3">&quot;args: %d</span><span class="s5">\n</span><span class="s3">&quot;</span><span class="s5">,</span><span class="s1">args)</span><span class="s5">;</span>
+			<span class="s1">interp(prog_prog())</span><span class="s5">;</span>
+
+			<span class="s1">printf(</span><span class="s3">&quot;prog</span><span class="s5">\n</span><span class="s3">&quot;</span><span class="s1">)</span><span class="s5">;</span>
+			<span class="s1">args = maxargs(prog())</span><span class="s5">;</span>
+			<span class="s1">printf(</span><span class="s3">&quot;args: %d</span><span class="s5">\n</span><span class="s3">&quot;</span><span class="s5">,</span><span class="s1">args)</span><span class="s5">;</span>
+			<span class="s1">interp(prog())</span><span class="s5">;</span>
+			<span class="s4">break</span><span class="s5">;</span>
+		<span class="s4">default</span><span class="s1">:</span>
+			printf(<span class="s3">&quot;unexpected case</span><span class="s5">\n</span><span class="s3">&quot;</span><span class="s1">)</span><span class="s5">;</span>
+			<span class="s1">exit(-</span><span class="s6">1</span><span class="s1">)</span><span class="s5">;</span>
+	<span class="s1">}</span>
+	printf(<span class="s3">&quot;right_prog</span><span class="s5">\n</span><span class="s3">&quot;</span><span class="s1">)</span><span class="s5">;</span>
+	<span class="s1">args = maxargs(right_prog())</span><span class="s5">;</span>
+	<span class="s1">printf(</span><span class="s3">&quot;args: %d</span><span class="s5">\n</span><span class="s3">&quot;</span><span class="s5">,</span><span class="s1">args)</span><span class="s5">;</span>
+	<span class="s1">interp(right_prog())</span><span class="s5">;</span>
+
+	<span class="s4">return </span><span class="s6">0</span><span class="s5">;</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

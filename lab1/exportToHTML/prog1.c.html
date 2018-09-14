@@ -1,0 +1,87 @@
+<html>
+<head>
+<title>prog1.c</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #bbb529;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #808080;}
+.s4 { color: #cc7832; font-weight: bold;}
+.s5 { color: #cc7832;}
+.s6 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+prog1.c</font>
+</center></td></tr></table>
+<pre><span class="s0">#include </span><span class="s2">&quot;util.h&quot;</span>
+<span class="s0">#include </span><span class="s2">&quot;slp.h&quot;</span>
+
+<span class="s3">// a = 5 + 3; b = (print(a, a-1), 10*a); print b;</span>
+<span class="s1">A_stm prog(</span><span class="s4">void</span><span class="s1">) {</span>
+	<span class="s3">// a = 5 + 3; </span>
+	<span class="s1">A_stm assStm1 = A_AssignStm(</span><span class="s2">&quot;a&quot;</span><span class="s5">, </span><span class="s1">A_OpExp(A_NumExp(</span><span class="s6">5</span><span class="s1">)</span><span class="s5">, </span><span class="s1">A_plus</span><span class="s5">, </span><span class="s1">A_NumExp(</span><span class="s6">3</span><span class="s1">)))</span><span class="s5">;</span>
+
+	<span class="s3">// b = (print(a, a-1), 10*a);</span>
+	<span class="s1">A_exp opExp1 = A_OpExp(A_IdExp(</span><span class="s2">&quot;a&quot;</span><span class="s1">)</span><span class="s5">, </span><span class="s1">A_minus</span><span class="s5">, </span><span class="s1">A_NumExp(</span><span class="s6">1</span><span class="s1">))</span><span class="s5">;</span>
+	<span class="s1">A_stm prStm1 = A_PrintStm(A_PairExpList(A_IdExp(</span><span class="s2">&quot;a&quot;</span><span class="s1">)</span><span class="s5">, </span><span class="s1">A_LastExpList(opExp1)))</span><span class="s5">;</span>
+	<span class="s1">A_exp opExp2 = A_OpExp(A_NumExp(</span><span class="s6">10</span><span class="s1">)</span><span class="s5">, </span><span class="s1">A_times</span><span class="s5">, </span><span class="s1">A_IdExp(</span><span class="s2">&quot;a&quot;</span><span class="s1">))</span><span class="s5">;</span>
+	<span class="s1">A_stm assStm2 = A_AssignStm(</span><span class="s2">&quot;b&quot;</span><span class="s5">, </span><span class="s1">A_EseqExp(prStm1</span><span class="s5">, </span><span class="s1">opExp2))</span><span class="s5">;</span>
+
+	<span class="s3">// print b;</span>
+	<span class="s1">A_stm prStm2 = A_PrintStm(A_LastExpList(A_IdExp(</span><span class="s2">&quot;b&quot;</span><span class="s1">)))</span><span class="s5">;</span>
+
+	<span class="s3">// b = (print(a, a-1), 10*a); print b;</span>
+	<span class="s1">A_stm comStm = A_CompoundStm(assStm2</span><span class="s5">, </span><span class="s1">prStm2)</span><span class="s5">;</span>
+
+	<span class="s4">return </span><span class="s1">A_CompoundStm(assStm1</span><span class="s5">, </span><span class="s1">comStm)</span><span class="s5">;</span>
+<span class="s1">}</span>
+
+<span class="s3">// a = 5 + 3; b = (print(a, a-1), 10*a); print b;</span>
+// a = 5 + b; b = (print(a, a, a-1), 10*a); print b;
+<span class="s1">A_stm prog_prog(</span><span class="s4">void</span><span class="s1">)</span>
+{
+	<span class="s3">// a = 5 + 3; b = (print(a, a-1), 10*a); print b;</span>
+    <span class="s1">A_stm stm1 = prog()</span><span class="s5">;</span>
+
+	<span class="s3">// a = 5 + b;</span>
+	<span class="s1">A_stm assStm1 = A_AssignStm(</span><span class="s2">&quot;a&quot;</span><span class="s5">, </span><span class="s1">A_OpExp(A_NumExp(</span><span class="s6">5</span><span class="s1">)</span><span class="s5">, </span><span class="s1">A_plus</span><span class="s5">, </span><span class="s1">A_IdExp(</span><span class="s2">&quot;b&quot;</span><span class="s1">)))</span><span class="s5">;</span>
+
+	<span class="s3">// print(a, a, a-1)</span>
+	<span class="s1">A_exp exp1 = A_OpExp(A_IdExp(</span><span class="s2">&quot;a&quot;</span><span class="s1">)</span><span class="s5">, </span><span class="s1">A_minus</span><span class="s5">, </span><span class="s1">A_NumExp(</span><span class="s6">1</span><span class="s1">))</span><span class="s5">;</span>
+	<span class="s1">A_expList explist = A_PairExpList(A_IdExp(</span><span class="s2">&quot;a&quot;</span><span class="s1">)</span><span class="s5">,</span>
+							<span class="s1">A_PairExpList(A_IdExp(</span><span class="s2">&quot;a&quot;</span><span class="s1">)</span><span class="s5">, </span>
+								<span class="s1">A_LastExpList(exp1)))</span><span class="s5">;</span>
+	<span class="s1">A_stm prStm1 = A_PrintStm(explist)</span><span class="s5">;</span>
+	<span class="s3">// 10 * a</span>
+	<span class="s1">A_exp exp2 = A_OpExp(A_NumExp(</span><span class="s6">10</span><span class="s1">)</span><span class="s5">, </span><span class="s1">A_times</span><span class="s5">, </span><span class="s1">A_IdExp(</span><span class="s2">&quot;a&quot;</span><span class="s1">))</span><span class="s5">;</span>
+
+	<span class="s3">// b = (print(a, a, a-1), 10*a);</span>
+	<span class="s1">A_stm assStm2 = A_AssignStm(</span><span class="s2">&quot;b&quot;</span><span class="s5">, </span><span class="s1">A_EseqExp(A_PrintStm(explist)</span><span class="s5">, </span><span class="s1">exp2))</span><span class="s5">;</span>
+
+	<span class="s3">// print b;</span>
+	<span class="s1">A_stm prStm2 = A_PrintStm(A_LastExpList(A_IdExp(</span><span class="s2">&quot;b&quot;</span><span class="s1">)))</span><span class="s5">;</span>
+
+     <span class="s4">return </span><span class="s1">A_CompoundStm(stm1</span><span class="s5">, </span>
+			 <span class="s1">A_CompoundStm(assStm1</span><span class="s5">, </span>
+				 <span class="s1">A_CompoundStm(assStm2</span><span class="s5">, </span><span class="s1">prStm2)))</span><span class="s5">;</span>
+<span class="s1">}</span>
+
+<span class="s3">// a = 5 + 3; b = (print(a, a-1), 10*a); print b;</span>
+// a = 5 + b; b = (print(a, a, a-1), 10*a); print b;
+// a = (a = a+b, a);
+<span class="s1">A_stm right_prog(</span><span class="s4">void</span><span class="s1">)</span>
+{
+    A_stm stm1 = prog_prog()<span class="s5">;</span>
+     <span class="s4">return </span><span class="s1">A_CompoundStm( stm1</span><span class="s5">, </span><span class="s1">A_AssignStm(</span><span class="s2">&quot;a&quot;</span><span class="s5">,</span>
+					<span class="s1">A_EseqExp(A_AssignStm(</span><span class="s2">&quot;a&quot;</span><span class="s5">, </span>
+							<span class="s1">A_OpExp(A_IdExp(</span><span class="s2">&quot;a&quot;</span><span class="s1">)</span><span class="s5">, </span><span class="s1">A_plus</span><span class="s5">, </span><span class="s1">A_IdExp(</span><span class="s2">&quot;b&quot;</span><span class="s1">)))</span><span class="s5">, </span><span class="s1">A_IdExp(</span><span class="s2">&quot;a&quot;</span><span class="s1">))))</span><span class="s5">;</span>
+ 
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

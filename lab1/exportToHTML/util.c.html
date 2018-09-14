@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>util.c</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #808080;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #bbb529;}
+.s3 { color: #6a8759;}
+.s4 { color: #cc7832; font-weight: bold;}
+.s5 { color: #cc7832;}
+.s6 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+util.c</font>
+</center></td></tr></table>
+<pre><span class="s0">/* 
+ * util.c - commonly used utility functions. 
+ */</span>
+
+<span class="s2">#include </span><span class="s3">&lt;stdio.h&gt;</span>
+<span class="s2">#include </span><span class="s3">&lt;stdlib.h&gt;</span>
+<span class="s2">#include </span><span class="s3">&lt;string.h&gt;</span>
+<span class="s2">#include </span><span class="s3">&quot;util.h&quot;</span>
+
+<span class="s4">void </span><span class="s1">*checked_malloc(</span><span class="s4">int </span><span class="s1">len)</span>
+{
+	<span class="s4">void </span><span class="s1">*p = malloc(len)</span><span class="s5">;</span>
+	<span class="s4">if </span><span class="s1">(!p) {</span>
+		fprintf(stderr<span class="s5">,</span><span class="s3">&quot;</span><span class="s5">\n</span><span class="s3">Ran out of memory!</span><span class="s5">\n</span><span class="s3">&quot;</span><span class="s1">)</span><span class="s5">;</span>
+		<span class="s1">exit(</span><span class="s6">1</span><span class="s1">)</span><span class="s5">;</span>
+	<span class="s1">}</span>
+	<span class="s4">return </span><span class="s1">p</span><span class="s5">;</span>
+<span class="s1">}</span>
+
+string String(<span class="s4">char </span><span class="s1">*s)</span>
+{
+	string p = checked_malloc(strlen(s)+<span class="s6">1</span><span class="s1">)</span><span class="s5">;</span>
+	<span class="s1">strcpy(p</span><span class="s5">,</span><span class="s1">s)</span><span class="s5">;</span>
+	<span class="s4">return </span><span class="s1">p</span><span class="s5">;</span>
+<span class="s1">}</span>
+
+U_boolList U_BoolList(bool head<span class="s5">, </span><span class="s1">U_boolList tail)</span>
+{ 
+	U_boolList list = checked_malloc(<span class="s4">sizeof</span><span class="s1">(*list))</span><span class="s5">;</span>
+	<span class="s1">list-&gt;head = head</span><span class="s5">;</span>
+	<span class="s1">list-&gt;tail = tail</span><span class="s5">;</span>
+	<span class="s4">return </span><span class="s1">list</span><span class="s5">;</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

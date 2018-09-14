@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>util.h</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #bbb529;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #cc7832; font-weight: bold;}
+.s4 { color: #cc7832;}
+.s5 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+util.h</font>
+</center></td></tr></table>
+<pre><span class="s0">#ifndef </span><span class="s1">UTIL_H</span>
+<span class="s0">#define </span><span class="s1">UTIL_H</span>
+<span class="s0">#include </span><span class="s2">&lt;assert.h&gt;</span>
+
+<span class="s3">typedef char </span><span class="s1">*string</span><span class="s4">;</span>
+<span class="s3">typedef char </span><span class="s1">bool</span><span class="s4">;</span>
+
+<span class="s0">#define </span><span class="s1">TRUE </span><span class="s5">1</span>
+<span class="s0">#define </span><span class="s1">FALSE </span><span class="s5">0</span>
+
+<span class="s3">void </span><span class="s1">*checked_malloc(</span><span class="s3">int</span><span class="s1">)</span><span class="s4">;</span>
+<span class="s1">string String(</span><span class="s3">char </span><span class="s1">*)</span><span class="s4">;</span>
+
+<span class="s3">typedef struct </span><span class="s1">U_boolList_ *U_boolList</span><span class="s4">;</span>
+<span class="s3">struct </span><span class="s1">U_boolList_ </span>
+{
+	bool head<span class="s4">; </span>
+	<span class="s1">U_boolList tail</span><span class="s4">;</span>
+<span class="s1">}</span><span class="s4">;</span>
+
+<span class="s1">U_boolList U_BoolList(bool head</span><span class="s4">, </span><span class="s1">U_boolList tail)</span><span class="s4">;</span>
+<span class="s0">#endif</span>
+</pre>
+</body>
+</html>

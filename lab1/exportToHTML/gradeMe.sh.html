@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>gradeMe.sh</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+gradeMe.sh</font>
+</center></td></tr></table>
+<pre><span class="s0">#!/bin/bash</span>
+
+function doReap(){
+	rm -f _tmp.txt .tmp.txt	
+}
+
+doReap
+make clean &gt;&amp; /dev/null
+make &gt; /dev/null
+if [[ $? != 0 ]]; then
+	echo &quot;[-_-]: Compile Error&quot;		
+	echo &quot;SCORE: 0&quot;
+	exit 1
+fi
+
+test_num=$(( ($RANDOM % 2) ))
+
+if [[ $test_num == 0 ]]; then
+	REFOUTPUT=./ref-0.txt
+else
+	REFOUTPUT=./ref-1.txt
+fi
+
+./a.out $test_num &gt;&amp; _tmp.txt
+diff -w  _tmp.txt $REFOUTPUT &gt;&amp; .tmp.txt
+if [ -s .tmp.txt ]; then
+	echo &quot;[*_*]: Output Mismatch&quot;
+	cat .tmp.txt
+	doReap
+	echo &quot;SCORE: 0&quot;
+	exit 0
+fi
+
+doReap
+echo &quot;[^_^]: Pass&quot;
+echo &quot;SCORE: 100&quot;
+
+
+</pre>
+</body>
+</html>

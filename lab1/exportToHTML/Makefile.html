@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>Makefile</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Makefile</font>
+</center></td></tr></table>
+<pre><span class="s0">CFLAGS=-std=c99 </span>
+
+a.out: main.o myimpl.o prog1.o slp.o util.o
+	gcc $(CFLAGS) $^
+
+myimpl.o: myimpl.c slp.h util.h prog1.h
+	gcc $(CFLAGS) -c $&lt;
+
+main.o: main.c slp.h util.h prog1.h
+	gcc $(CFLAGS) -c $&lt;
+
+prog1.o: prog1.c slp.h util.h
+	gcc $(CFLAGS) -c $&lt;
+
+slp.o: slp.c slp.h util.h
+	gcc $(CFLAGS) -c $&lt;
+
+util.o: util.c util.h
+	gcc $(CFLAGS) -c $&lt;
+
+handin:
+	@tar czf lab1_xxx.tar.gz myimpl.c
+	@echo &quot;Please rename lab1_xxx.tar.gz to lab1_&lt;your student id&gt;.tar.gz&quot;
+	@echo &quot;For example, lab1_5140379000.tar.gz.&quot;
+
+grade:
+	./gradeMe.sh
+	
+clean: 
+	rm -f a.out *.o
+</pre>
+</body>
+</html>

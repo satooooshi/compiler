@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>slp.h</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #bbb529;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #cc7832; font-weight: bold;}
+.s4 { color: #cc7832;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+slp.h</font>
+</center></td></tr></table>
+<pre><span class="s0">#ifndef </span><span class="s1">SLP_H</span>
+<span class="s0">#define </span><span class="s1">SLP_H</span>
+<span class="s0">#include </span><span class="s2">&quot;util.h&quot;</span>
+<span class="s3">typedef struct </span><span class="s1">A_stm_ *A_stm</span><span class="s4">;</span>
+<span class="s3">typedef struct </span><span class="s1">A_exp_ *A_exp</span><span class="s4">;</span>
+<span class="s3">typedef struct </span><span class="s1">A_expList_ *A_expList</span><span class="s4">;</span>
+<span class="s3">typedef enum </span><span class="s1">{A_plus</span><span class="s4">,</span><span class="s1">A_minus</span><span class="s4">,</span><span class="s1">A_times</span><span class="s4">,</span><span class="s1">A_div} A_binop</span><span class="s4">;</span>
+
+<span class="s3">struct </span><span class="s1">A_stm_ {</span><span class="s3">enum </span><span class="s1">{A_compoundStm</span><span class="s4">, </span><span class="s1">A_assignStm</span><span class="s4">, </span><span class="s1">A_printStm} kind</span><span class="s4">;</span>
+             <span class="s3">union </span><span class="s1">{</span><span class="s3">struct </span><span class="s1">{A_stm stm1</span><span class="s4">, </span><span class="s1">stm2</span><span class="s4">;</span><span class="s1">} compound</span><span class="s4">;</span>
+                    <span class="s3">struct </span><span class="s1">{string id</span><span class="s4">; </span><span class="s1">A_exp exp</span><span class="s4">;</span><span class="s1">} assign</span><span class="s4">;</span>
+                    <span class="s3">struct </span><span class="s1">{A_expList exps</span><span class="s4">;</span><span class="s1">} print</span><span class="s4">;</span>
+                   <span class="s1">} u</span><span class="s4">;</span>
+            <span class="s1">}</span><span class="s4">;</span>
+<span class="s1">A_stm A_CompoundStm(A_stm stm1</span><span class="s4">, </span><span class="s1">A_stm stm2)</span><span class="s4">;</span>
+<span class="s1">A_stm A_AssignStm(string id</span><span class="s4">, </span><span class="s1">A_exp exp)</span><span class="s4">;</span>
+<span class="s1">A_stm A_PrintStm(A_expList exps)</span><span class="s4">;</span>
+
+<span class="s3">struct </span><span class="s1">A_exp_ {</span><span class="s3">enum </span><span class="s1">{A_idExp</span><span class="s4">, </span><span class="s1">A_numExp</span><span class="s4">, </span><span class="s1">A_opExp</span><span class="s4">, </span><span class="s1">A_eseqExp} kind</span><span class="s4">;</span>
+             <span class="s3">union </span><span class="s1">{string id</span><span class="s4">;</span>
+                    <span class="s3">int </span><span class="s1">num</span><span class="s4">;</span>
+                    <span class="s3">struct </span><span class="s1">{A_exp left</span><span class="s4">; </span><span class="s1">A_binop oper</span><span class="s4">; </span><span class="s1">A_exp right</span><span class="s4">;</span><span class="s1">} op</span><span class="s4">;</span>
+                    <span class="s3">struct </span><span class="s1">{A_stm stm</span><span class="s4">; </span><span class="s1">A_exp exp</span><span class="s4">;</span><span class="s1">} eseq</span><span class="s4">;</span>
+                   <span class="s1">} u</span><span class="s4">;</span>
+            <span class="s1">}</span><span class="s4">;</span>
+<span class="s1">A_exp A_IdExp(string id)</span><span class="s4">;</span>
+<span class="s1">A_exp A_NumExp(</span><span class="s3">int </span><span class="s1">num)</span><span class="s4">;</span>
+<span class="s1">A_exp A_OpExp(A_exp left</span><span class="s4">, </span><span class="s1">A_binop oper</span><span class="s4">, </span><span class="s1">A_exp right)</span><span class="s4">;</span>
+<span class="s1">A_exp A_EseqExp(A_stm stm</span><span class="s4">, </span><span class="s1">A_exp exp)</span><span class="s4">;</span>
+
+<span class="s3">struct </span><span class="s1">A_expList_ {</span><span class="s3">enum </span><span class="s1">{A_pairExpList</span><span class="s4">, </span><span class="s1">A_lastExpList} kind</span><span class="s4">;</span>
+                   <span class="s3">union </span><span class="s1">{</span><span class="s3">struct </span><span class="s1">{A_exp head</span><span class="s4">; </span><span class="s1">A_expList tail</span><span class="s4">;</span><span class="s1">} pair</span><span class="s4">;</span>
+                          <span class="s1">A_exp last</span><span class="s4">;</span>
+                         <span class="s1">} u</span><span class="s4">;</span>
+                  <span class="s1">}</span><span class="s4">;</span>
+
+<span class="s1">A_expList A_PairExpList(A_exp head</span><span class="s4">, </span><span class="s1">A_expList tail)</span><span class="s4">;</span>
+<span class="s1">A_expList A_LastExpList(A_exp last)</span><span class="s4">;</span>
+<span class="s0">#endif</span>
+</pre>
+</body>
+</html>

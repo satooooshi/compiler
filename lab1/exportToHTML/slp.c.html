@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>slp.c</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #bbb529;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #cc7832;}
+.s4 { color: #cc7832; font-weight: bold;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+slp.c</font>
+</center></td></tr></table>
+<pre><span class="s0">#include </span><span class="s2">&quot;util.h&quot;</span>
+<span class="s0">#include </span><span class="s2">&quot;slp.h&quot;</span>
+
+<span class="s1">A_stm A_CompoundStm(A_stm stm1</span><span class="s3">, </span><span class="s1">A_stm stm2) {</span>
+  A_stm s = checked_malloc(<span class="s4">sizeof </span><span class="s1">*s)</span><span class="s3">;</span>
+  <span class="s1">s-&gt;kind=A_compoundStm</span><span class="s3">; </span><span class="s1">s-&gt;u.compound.stm1=stm1</span><span class="s3">; </span><span class="s1">s-&gt;u.compound.stm2=stm2</span><span class="s3">;</span>
+  <span class="s4">return </span><span class="s1">s</span><span class="s3">;</span>
+<span class="s1">}</span>
+
+
+A_stm A_AssignStm(string id<span class="s3">, </span><span class="s1">A_exp exp) {</span>
+  A_stm s = checked_malloc(<span class="s4">sizeof </span><span class="s1">*s)</span><span class="s3">;</span>
+  <span class="s1">s-&gt;kind=A_assignStm</span><span class="s3">; </span><span class="s1">s-&gt;u.assign.id=id</span><span class="s3">; </span><span class="s1">s-&gt;u.assign.exp=exp</span><span class="s3">;</span>
+  <span class="s4">return </span><span class="s1">s</span><span class="s3">;</span>
+<span class="s1">}</span>
+
+A_stm A_PrintStm(A_expList exps) {
+  A_stm s = checked_malloc(<span class="s4">sizeof </span><span class="s1">*s)</span><span class="s3">;</span>
+  <span class="s1">s-&gt;kind=A_printStm</span><span class="s3">; </span><span class="s1">s-&gt;u.print.exps=exps</span><span class="s3">;</span>
+  <span class="s4">return </span><span class="s1">s</span><span class="s3">;</span>
+<span class="s1">}</span>
+
+A_exp A_IdExp(string id) {
+  A_exp e = checked_malloc(<span class="s4">sizeof </span><span class="s1">*e)</span><span class="s3">;</span>
+  <span class="s1">e-&gt;kind=A_idExp</span><span class="s3">; </span><span class="s1">e-&gt;u.id=id</span><span class="s3">;</span>
+  <span class="s4">return </span><span class="s1">e</span><span class="s3">;</span>
+<span class="s1">}</span>
+
+A_exp A_NumExp(<span class="s4">int </span><span class="s1">num) {</span>
+  A_exp e = checked_malloc(<span class="s4">sizeof </span><span class="s1">*e)</span><span class="s3">;</span>
+  <span class="s1">e-&gt;kind=A_numExp</span><span class="s3">; </span><span class="s1">e-&gt;u.num=num</span><span class="s3">;</span>
+  <span class="s4">return </span><span class="s1">e</span><span class="s3">;</span>
+<span class="s1">}</span>
+
+A_exp A_OpExp(A_exp left<span class="s3">, </span><span class="s1">A_binop oper</span><span class="s3">, </span><span class="s1">A_exp right) {</span>
+  A_exp e = checked_malloc(<span class="s4">sizeof </span><span class="s1">*e)</span><span class="s3">;</span>
+  <span class="s1">e-&gt;kind=A_opExp</span><span class="s3">; </span><span class="s1">e-&gt;u.op.left=left</span><span class="s3">; </span><span class="s1">e-&gt;u.op.oper=oper</span><span class="s3">; </span><span class="s1">e-&gt;u.op.right=right</span><span class="s3">;</span>
+  <span class="s4">return </span><span class="s1">e</span><span class="s3">;</span>
+<span class="s1">}</span>
+
+A_exp A_EseqExp(A_stm stm<span class="s3">, </span><span class="s1">A_exp exp) {</span>
+  A_exp e = checked_malloc(<span class="s4">sizeof </span><span class="s1">*e)</span><span class="s3">;</span>
+  <span class="s1">e-&gt;kind=A_eseqExp</span><span class="s3">; </span><span class="s1">e-&gt;u.eseq.stm=stm</span><span class="s3">; </span><span class="s1">e-&gt;u.eseq.exp=exp</span><span class="s3">;</span>
+  <span class="s4">return </span><span class="s1">e</span><span class="s3">;</span>
+<span class="s1">}</span>
+
+A_expList A_PairExpList(A_exp head<span class="s3">, </span><span class="s1">A_expList tail) {</span>
+  A_expList e = checked_malloc(<span class="s4">sizeof </span><span class="s1">*e)</span><span class="s3">;</span>
+  <span class="s1">e-&gt;kind=A_pairExpList</span><span class="s3">; </span><span class="s1">e-&gt;u.pair.head=head</span><span class="s3">; </span><span class="s1">e-&gt;u.pair.tail=tail</span><span class="s3">;</span>
+  <span class="s4">return </span><span class="s1">e</span><span class="s3">;</span>
+<span class="s1">}</span>
+
+A_expList A_LastExpList(A_exp last) {
+  A_expList e = checked_malloc(<span class="s4">sizeof </span><span class="s1">*e)</span><span class="s3">;</span>
+  <span class="s1">e-&gt;kind=A_lastExpList</span><span class="s3">; </span><span class="s1">e-&gt;u.last=last</span><span class="s3">;</span>
+  <span class="s4">return </span><span class="s1">e</span><span class="s3">;</span>
+<span class="s1">}</span>
+
+
+
+</pre>
+</body>
+</html>
