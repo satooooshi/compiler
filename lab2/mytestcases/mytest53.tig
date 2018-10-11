@@ -1,0 +1,12 @@
+let
+	var N := 8
+    type intArray = array of int
+    var arr1 := intArray [ 10 ] of 0
+	var sum := 0
+in
+	arr1 := arr1.map(elem,()=>{
+		print(elem);
+	});
+	sum := arr1.reduce((acc, elem) =>{return acc + elem;}, 0);
+	arr1 := arr1.filter((elem)=>{return elem=1;})/*no elements*/
+end

@@ -214,6 +214,11 @@ IDregExp [a-zA-Z][a-zA-Z0-9_]*
   var   {adjust(); return VAR;}
   type  {adjust(); return TYPE;}
 
+  /* myown tokens */
+  map {adjust(); return MAP;}
+  reduce {adjust(); return REDUCE;}
+  filter {adjust(); return FILTER;}
+  "=>" {adjust(); return ARROW;}
 
   {INTregExp} {adjust(); yylval.ival=atoi(yytext); return INT;}
   {IDregExp} {adjust(); yylval.sval=String(yytext); return ID;}

@@ -48,3 +48,10 @@ extern YYSTYPE yylval;
 # define FUNCTION 297
 # define VAR 298
 # define TYPE 299
+
+// myown tokens 
+# define MAP 300
+# define REDUCE 301
+# define FILTER 302
+# define ARROW 303
+
