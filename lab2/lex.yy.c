@@ -935,8 +935,9 @@ YY_RULE_SETUP
 #line 111 "tiger.lex"
 {
     adjuststr();
-    *string_buf_ptr++ = yytext[2];
-  } /* \\\^ means "\^" OCT:\0-\37 */
+     int result = atoi(yytext + 2);
+    *string_buf_ptr++ = atoi(yytext + 2);
+  } /* ==([0-9]{3})\\\^ means "\^" OCT:\^0-\^37 HEX:\x0-\x1F Ctrl-characters*/
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
@@ -944,7 +945,7 @@ YY_RULE_SETUP
 {
     adjuststr();
    *string_buf_ptr++ = chtodec(yytext[2]);
-  } /* \\\^ means "\^", OCT:\101-\132\141-\172, Hex:\x41-\x5A\x61-\x7A Dec:65-90,97-122 means A~Za~z Ex. char ch=67,  char *string_buf_ptr++ = '\x03' */
+  } /* == (\\\^)[\x41-\x5A\x61-\x7A] \\\^ means "\^", OCT:\101-\132\141-\172, Hex:\x41-\x5A\x61-\x7A Dec:65-90,97-122 means A~Za~z Ex. char ch=67,  char *string_buf_ptr++ = '\x03' */
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
@@ -1259,7 +1260,7 @@ YY_RULE_SETUP
 #line 229 "tiger.lex"
 ECHO;
 	YY_BREAK
-#line 1263 "lex.yy.c"
+#line 1264 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(str):
 case YY_STATE_EOF(comment):

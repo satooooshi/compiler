@@ -108,17 +108,17 @@ IDregExp [a-zA-Z][a-zA-Z0-9_]*
   \\t     {adjuststr(); *string_buf_ptr++ = '\t';}
   \\\"    {adjuststr(); *string_buf_ptr++ = '\"';}
   \\\\    {adjuststr(); *string_buf_ptr++ = '\\';}
-  \\\^[\0-\037]   {
+  (\\\^)[\x0-\x1F]   {
     adjuststr();
-    *string_buf_ptr++ = yytext[2];
-  } /* \\\^ means "\^" OCT:\0-\37 */
+     int result = atoi(yytext + 2);
+    *string_buf_ptr++ = atoi(yytext + 2);
+  } /* ==([0-9]{3})\\\^ means "\^" OCT:\^0-\^37 HEX:\x0-\x1F Ctrl-characters*/
 
-  
 
-  (\\\^)[\x41-\x5A\x61-\x7A] {
+  (\\\^)[a-zA-Z] {
     adjuststr();
    *string_buf_ptr++ = chtodec(yytext[2]);
-  } /* \\\^ means "\^", OCT:\101-\132\141-\172, Hex:\x41-\x5A\x61-\x7A Dec:65-90,97-122 means A~Za~z Ex. char ch=67,  char *string_buf_ptr++ = '\x03' */
+  } /* == (\\\^)[\x41-\x5A\x61-\x7A] \\\^ means "\^", OCT:\101-\132\141-\172, Hex:\x41-\x5A\x61-\x7A Dec:65-90,97-122 means A~Za~z Ex. char ch=67,  char *string_buf_ptr++ = '\x03' */
  
 
   \\[ \t\n\r]+\\ {
