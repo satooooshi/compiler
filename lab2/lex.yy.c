@@ -360,8 +360,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 63
-#define YY_END_OF_BUFFER 64
+#define YY_NUM_RULES 64
+#define YY_END_OF_BUFFER 65
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -371,19 +371,19 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[122] =
     {   0,
-        0,    0,    0,    0,    0,    0,   64,   62,   17,   18,
-       61,   39,   22,   23,   31,   29,   19,   30,   28,   32,
-       59,   20,   21,   35,   33,   37,   60,   24,   25,   60,
-       60,   60,   60,   60,   60,   60,   60,   60,   60,   60,
-       60,   26,   40,   27,   12,   11,    1,   12,   63,   16,
-       14,   16,   16,   13,   59,   41,   36,   34,   38,   60,
-       60,   60,   49,   60,   60,   60,   60,   43,   51,   60,
-       60,   53,   60,   48,   60,   60,   60,   12,   12,   10,
-       10,    0,    5,   10,    6,   10,    3,    4,   15,   60,
-       60,   60,   52,   47,   60,   50,   55,   60,   60,   57,
+        0,    0,    0,    0,    0,    0,   65,   63,   18,   19,
+       62,   40,   23,   24,   32,   30,   20,   31,   29,   33,
+       60,   21,   22,   36,   34,   38,   61,   25,   26,   61,
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   61,
+       61,   27,   41,   28,   12,   11,    1,   12,   13,   17,
+       15,   17,   17,   14,   60,   42,   37,   35,   39,   61,
+       61,   61,   50,   61,   61,   61,   61,   44,   52,   61,
+       61,   54,   61,   49,   61,   61,   61,   12,   12,   10,
+       10,    0,    5,   10,    6,   10,    3,    4,   16,   61,
+       61,   61,   53,   48,   61,   51,   56,   61,   61,   58,
 
-       60,    9,    0,    7,    8,   60,   60,   45,   60,   44,
-       58,   60,    2,   42,   54,   60,   46,   60,   60,   56,
+       61,    9,    0,    7,    8,   61,   61,   46,   61,   45,
+       59,   61,    2,   43,   55,   61,   47,   61,   61,   57,
         0
     } ;
 
@@ -907,7 +907,7 @@ YY_RULE_SETUP
       continue;
     }
     *string_buf_ptr++ = c;
-  }
+  }/* character Ex. \101 'A' */
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
@@ -989,260 +989,265 @@ YY_RULE_SETUP
       *string_buf_ptr++ = *yptr++;
   }
 	YY_BREAK
+case 13:
+YY_RULE_SETUP
+#line 152 "tiger.lex"
+{adjuststr(); EM_error(charPos, "illegal char in string");}
+	YY_BREAK
 
 /* comment, note that the special start-condition specifier `<*>' matches every start condition.
     Can match where ever < > state is in .
   */ 
 
-case 13:
+case 14:
 YY_RULE_SETUP
-#line 158 "tiger.lex"
+#line 160 "tiger.lex"
 {adjust(); ++commentLevel; BEGIN(comment);}
 	YY_BREAK
 
 
-case 14:
-/* rule 14 can match eol */
-YY_RULE_SETUP
-#line 162 "tiger.lex"
-{adjust(); EM_newline();}
-	YY_BREAK
 case 15:
+/* rule 15 can match eol */
 YY_RULE_SETUP
-#line 163 "tiger.lex"
-{adjust(); --commentLevel; if (commentLevel <= 0) BEGIN(INITIAL);}
+#line 164 "tiger.lex"
+{adjust(); EM_newline();}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 164 "tiger.lex"
+#line 165 "tiger.lex"
+{adjust(); --commentLevel; if (commentLevel <= 0) BEGIN(INITIAL);}
+	YY_BREAK
+case 17:
+YY_RULE_SETUP
+#line 166 "tiger.lex"
 {adjust();}
 	YY_BREAK
 
 
-case 17:
+case 18:
 YY_RULE_SETUP
-#line 169 "tiger.lex"
+#line 171 "tiger.lex"
 {adjust();} 
 	YY_BREAK
-case 18:
-/* rule 18 can match eol */
-YY_RULE_SETUP
-#line 170 "tiger.lex"
-{adjust(); EM_newline();}
-	YY_BREAK
 case 19:
+/* rule 19 can match eol */
 YY_RULE_SETUP
 #line 172 "tiger.lex"
-{adjust(); return COMMA;}
+{adjust(); EM_newline();}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 173 "tiger.lex"
-{adjust(); return COLON;}
+#line 174 "tiger.lex"
+{adjust(); return COMMA;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 174 "tiger.lex"
-{adjust(); return SEMICOLON;}
+#line 175 "tiger.lex"
+{adjust(); return COLON;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 176 "tiger.lex"
-{adjust(); return LPAREN;}
+{adjust(); return SEMICOLON;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 177 "tiger.lex"
-{adjust(); return RPAREN;}
+#line 178 "tiger.lex"
+{adjust(); return LPAREN;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 178 "tiger.lex"
-{adjust(); return LBRACK;}
+#line 179 "tiger.lex"
+{adjust(); return RPAREN;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 179 "tiger.lex"
-{adjust(); return RBRACK;}
+#line 180 "tiger.lex"
+{adjust(); return LBRACK;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 180 "tiger.lex"
-{adjust(); return LBRACE;}
+#line 181 "tiger.lex"
+{adjust(); return RBRACK;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 181 "tiger.lex"
-{adjust(); return RBRACE;}
+#line 182 "tiger.lex"
+{adjust(); return LBRACE;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 183 "tiger.lex"
-{adjust(); return DOT;}
+{adjust(); return RBRACE;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 184 "tiger.lex"
-{adjust(); return PLUS;}
+#line 185 "tiger.lex"
+{adjust(); return DOT;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 185 "tiger.lex"
-{adjust(); return MINUS;}
+#line 186 "tiger.lex"
+{adjust(); return PLUS;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 186 "tiger.lex"
-{adjust(); return TIMES;}
+#line 187 "tiger.lex"
+{adjust(); return MINUS;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 187 "tiger.lex"
-{adjust(); return DIVIDE;}
+#line 188 "tiger.lex"
+{adjust(); return TIMES;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 189 "tiger.lex"
-{adjust(); return EQ;}
+{adjust(); return DIVIDE;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 190 "tiger.lex"
-{adjust(); return NEQ;}
+#line 191 "tiger.lex"
+{adjust(); return EQ;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 191 "tiger.lex"
-{adjust(); return LT;}
+#line 192 "tiger.lex"
+{adjust(); return NEQ;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 192 "tiger.lex"
-{adjust(); return LE;}
+#line 193 "tiger.lex"
+{adjust(); return LT;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 193 "tiger.lex"
-{adjust(); return GT;}
+#line 194 "tiger.lex"
+{adjust(); return LE;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 194 "tiger.lex"
-{adjust(); return GE;}
+#line 195 "tiger.lex"
+{adjust(); return GT;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 195 "tiger.lex"
-{adjust(); return AND;}
+#line 196 "tiger.lex"
+{adjust(); return GE;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 196 "tiger.lex"
-{adjust(); return OR;}
+#line 197 "tiger.lex"
+{adjust(); return AND;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 197 "tiger.lex"
-{adjust(); return ASSIGN;}
+#line 198 "tiger.lex"
+{adjust(); return OR;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
 #line 199 "tiger.lex"
-{adjust(); return ARRAY;}
+{adjust(); return ASSIGN;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 200 "tiger.lex"
-{adjust(); return IF;}
+#line 201 "tiger.lex"
+{adjust(); return ARRAY;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 201 "tiger.lex"
-{adjust(); return THEN;}
+#line 202 "tiger.lex"
+{adjust(); return IF;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 202 "tiger.lex"
-{adjust(); return ELSE;}
+#line 203 "tiger.lex"
+{adjust(); return THEN;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 203 "tiger.lex"
-{adjust(); return WHILE;}
+#line 204 "tiger.lex"
+{adjust(); return ELSE;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 204 "tiger.lex"
-{adjust(); return FOR;}
+#line 205 "tiger.lex"
+{adjust(); return WHILE;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 205 "tiger.lex"
-{adjust(); return TO;}
+#line 206 "tiger.lex"
+{adjust(); return FOR;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 206 "tiger.lex"
-{adjust(); return DO;}
+#line 207 "tiger.lex"
+{adjust(); return TO;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 207 "tiger.lex"
-{adjust(); return LET;}
+#line 208 "tiger.lex"
+{adjust(); return DO;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 208 "tiger.lex"
-{adjust(); return IN;}
+#line 209 "tiger.lex"
+{adjust(); return LET;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 209 "tiger.lex"
-{adjust(); return END;}
+#line 210 "tiger.lex"
+{adjust(); return IN;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 210 "tiger.lex"
-{adjust(); return OF;}
+#line 211 "tiger.lex"
+{adjust(); return END;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 211 "tiger.lex"
-{adjust(); return BREAK;}
+#line 212 "tiger.lex"
+{adjust(); return OF;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 212 "tiger.lex"
-{adjust(); return NIL;}
+#line 213 "tiger.lex"
+{adjust(); return BREAK;}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 213 "tiger.lex"
-{adjust(); return FUNCTION;}
+#line 214 "tiger.lex"
+{adjust(); return NIL;}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 214 "tiger.lex"
-{adjust(); return VAR;}
+#line 215 "tiger.lex"
+{adjust(); return FUNCTION;}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 215 "tiger.lex"
-{adjust(); return TYPE;}
+#line 216 "tiger.lex"
+{adjust(); return VAR;}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 218 "tiger.lex"
-{adjust(); yylval.ival=atoi(yytext); return INT;}
+#line 217 "tiger.lex"
+{adjust(); return TYPE;}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 219 "tiger.lex"
-{adjust(); yylval.sval=String(yytext); return ID;}
+#line 220 "tiger.lex"
+{adjust(); yylval.ival=atoi(yytext); return INT;}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 220 "tiger.lex"
+#line 221 "tiger.lex"
+{adjust(); yylval.sval=String(yytext); return ID;}
+	YY_BREAK
+case 62:
+YY_RULE_SETUP
+#line 222 "tiger.lex"
 {
     adjust();
     string_buf_ptr = string_buf;
@@ -1250,17 +1255,17 @@ YY_RULE_SETUP
   }
 	YY_BREAK
 
-case 62:
-YY_RULE_SETUP
-#line 227 "tiger.lex"
-{adjust(); EM_error(EM_tokPos,"illegal token");}
-	YY_BREAK
 case 63:
 YY_RULE_SETUP
 #line 229 "tiger.lex"
+{adjust(); EM_error(EM_tokPos,"illegal token");}
+	YY_BREAK
+case 64:
+YY_RULE_SETUP
+#line 231 "tiger.lex"
 ECHO;
 	YY_BREAK
-#line 1264 "lex.yy.c"
+#line 1269 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(str):
 case YY_STATE_EOF(comment):
@@ -2259,7 +2264,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 229 "tiger.lex"
+#line 231 "tiger.lex"
 
 
 

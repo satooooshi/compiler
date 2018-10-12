@@ -102,7 +102,7 @@ IDregExp [a-zA-Z][a-zA-Z0-9_]*
       continue;
     }
     *string_buf_ptr++ = c;
-  }
+  }/* character Ex. \101 'A' */
 
   \\n     {adjuststr(); *string_buf_ptr++ = '\n';}
   \\t     {adjuststr(); *string_buf_ptr++ = '\t';}
@@ -148,6 +148,8 @@ IDregExp [a-zA-Z][a-zA-Z0-9_]*
     while (*yptr)
       *string_buf_ptr++ = *yptr++;
   }
+
+  . {adjuststr(); EM_error(charPos, "illegal char in string");}
 }
 
   /* comment, note that the special start-condition specifier `<*>' matches every start condition.
