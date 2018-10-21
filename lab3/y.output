@@ -1,0 +1,253 @@
+Useless nonterminals
+
+   exps
+   seqexp
+   recorditem
+   recorditems
+   voidexp
+   args
+   tyfield
+   tyfields
+   ty
+   tydec
+   tydecs
+   vardec
+   fundec
+   fundecs
+   dec
+   decs
+   lvalue
+
+
+Terminals which are not used
+
+   STRING
+   INT
+   COMMA
+   COLON
+   SEMICOLON
+   LPAREN
+   RPAREN
+   LBRACK
+   RBRACK
+   LBRACE
+   RBRACE
+   DOT
+   PLUS
+   MINUS
+   TIMES
+   DIVIDE
+   EQ
+   NEQ
+   LT
+   LE
+   GT
+   GE
+   ASSIGN
+   ARRAY
+   IF
+   THEN
+   ELSE
+   WHILE
+   FOR
+   TO
+   DO
+   LET
+   IN
+   END
+   OF
+   BREAK
+   NIL
+   FUNCTION
+   VAR
+   TYPE
+   UMINUS
+
+
+Useless rules
+
+    5 exps: /* empty */
+
+    6 seqexp: /* empty */
+
+    7 recorditem: /* empty */
+
+    8 recorditems: /* empty */
+
+    9 voidexp: /* empty */
+
+   10 args: /* empty */
+
+   11 tyfield: /* empty */
+
+   12 tyfields: /* empty */
+
+   13 ty: /* empty */
+
+   14 tydec: /* empty */
+
+   15 tydecs: /* empty */
+
+   16 vardec: /* empty */
+
+   17 fundec: /* empty */
+
+   18 fundecs: /* empty */
+
+   19 dec: /* empty */
+
+   20 decs: /* empty */
+
+   21 lvalue: /* empty */
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: exp
+
+    2 exp: ID
+    3    | exp AND exp
+    4    | exp OR exp
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+ID (258) 2
+STRING (259)
+INT (260)
+COMMA (261)
+COLON (262)
+SEMICOLON (263)
+LPAREN (264)
+RPAREN (265)
+LBRACK (266)
+RBRACK (267)
+LBRACE (268)
+RBRACE (269)
+DOT (270)
+PLUS (271)
+MINUS (272)
+TIMES (273)
+DIVIDE (274)
+EQ (275)
+NEQ (276)
+LT (277)
+LE (278)
+GT (279)
+GE (280)
+AND (281) 3
+OR (282) 4
+ASSIGN (283)
+ARRAY (284)
+IF (285)
+THEN (286)
+ELSE (287)
+WHILE (288)
+FOR (289)
+TO (290)
+DO (291)
+LET (292)
+IN (293)
+END (294)
+OF (295)
+BREAK (296)
+NIL (297)
+FUNCTION (298)
+VAR (299)
+TYPE (300)
+UMINUS (301)
+
+
+Nonterminals, with rules where they appear
+
+$accept (47)
+    on left: 0
+program (48)
+    on left: 1, on right: 0
+exp (49)
+    on left: 2 3 4, on right: 1 3 4
+
+
+state 0
+
+    0 $accept: . program $end
+
+    ID  shift, and go to state 1
+
+    program  go to state 2
+    exp      go to state 3
+
+
+state 1
+
+    2 exp: ID .
+
+    $default  reduce using rule 2 (exp)
+
+
+state 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 4
+
+
+state 3
+
+    1 program: exp .
+    3 exp: exp . AND exp
+    4    | exp . OR exp
+
+    AND  shift, and go to state 5
+    OR   shift, and go to state 6
+
+    $default  reduce using rule 1 (program)
+
+
+state 4
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 5
+
+    3 exp: exp AND . exp
+
+    ID  shift, and go to state 1
+
+    exp  go to state 7
+
+
+state 6
+
+    4 exp: exp OR . exp
+
+    ID  shift, and go to state 1
+
+    exp  go to state 8
+
+
+state 7
+
+    3 exp: exp . AND exp
+    3    | exp AND exp .
+    4    | exp . OR exp
+
+    $default  reduce using rule 3 (exp)
+
+
+state 8
+
+    3 exp: exp . AND exp
+    4    | exp . OR exp
+    4    | exp OR exp .
+
+    AND  shift, and go to state 5
+
+    $default  reduce using rule 4 (exp)
