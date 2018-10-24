@@ -105,7 +105,6 @@ struct A_efieldList_ {A_efield head; A_efieldList tail;};
 
 /* Function Prototypes */
 
-
 //Var (lvalue)
 A_var A_SimpleVar(A_pos pos, S_symbol sym);
 A_var A_FieldVar(A_pos pos, A_var var, S_symbol sym);

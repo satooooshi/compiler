@@ -82,7 +82,10 @@
      FUNCTION = 298,
      VAR = 299,
      TYPE = 300,
-     UMINUS = 301
+     EXP = 301,
+     FUNDEC = 302,
+     UMINUS = 303,
+     IFX = 304
    };
 #endif
 /* Tokens.  */
@@ -129,35 +132,39 @@
 #define FUNCTION 298
 #define VAR 299
 #define TYPE 300
-#define UMINUS 301
+#define EXP 301
+#define FUNDEC 302
+#define UMINUS 303
+#define IFX 304
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 26 "tiger.y"
+#line 21 "tiger.y"
 {
 	int pos;
 	int ival;
 	string sval;
 	A_var var;
 	A_exp exp;
-	A_expList expList;
-	A_dec dec;
-	A_decList decList;
-	A_fundec fundec;
-	A_fundecList fundecList;
-	A_namety namety;
-	A_nametyList nametyList;
-	A_field field;
-	A_fieldList fieldList;
-	A_efield efield;
-	A_efieldList efieldList;
-	A_ty ty;
-}
+	/* et cetera */
+    A_dec dec;
+    A_ty ty;
+    A_field field;
+    A_fieldList fieldList;
+    A_expList expList;
+    A_fundec fundec;
+    A_fundecList fundecList;
+    A_decList decList;
+    A_namety namety;
+    A_nametyList nametyList;
+    A_efield efield;
+    A_efieldList efieldList;
+	}
 /* Line 1529 of yacc.c.  */
-#line 161 "y.tab.h"
+#line 168 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

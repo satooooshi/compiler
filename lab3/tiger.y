@@ -1,8 +1,3 @@
-/* Lab3: You are free to modify this file (**ONLY** modify this file). 
- * But for your convinience, 
- * please read absyn.h carefully first.
- */
-
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,26 +17,27 @@ void yyerror(char *s)
 }
 %}
 
-/* the fields in YYTYPE */
+
 %union {
 	int pos;
 	int ival;
 	string sval;
 	A_var var;
 	A_exp exp;
-	A_expList expList;
-	A_dec dec;
-	A_decList decList;
-	A_fundec fundec;
-	A_fundecList fundecList;
-	A_namety namety;
-	A_nametyList nametyList;
-	A_field field;
-	A_fieldList fieldList;
-	A_efield efield;
-	A_efieldList efieldList;
-	A_ty ty;
-}
+	/* et cetera */
+    A_dec dec;
+    A_ty ty;
+    A_field field;
+    A_fieldList fieldList;
+    A_expList expList;
+    A_fundec fundec;
+    A_fundecList fundecList;
+    A_decList decList;
+    A_namety namety;
+    A_nametyList nametyList;
+    A_efield efield;
+    A_efieldList efieldList;
+	}
 
 %token <sval> ID STRING
 %token <ival> INT
@@ -55,72 +51,162 @@ void yyerror(char *s)
   BREAK NIL
   FUNCTION VAR TYPE 
 
+/* et cetera */
+%type <exp> exp program valexp constexp arrayexp seqlist callexp opexp recexp assignexp ifexp whileexp forexp letexp
+%type <var> lvalue
+%type <dec> dec vardec
+%type <ty> ty
+%type <field> tyfield
+%type <fieldList> tyfields
+%type <expList> exps funcargs
+%type <fundec> fundec
+%type <fundecList> fundecs
+%type <decList> decs
+%type <namety> tydec
+%type <nametyList> tydecs
+%type <efield> recfield
+%type <efieldList> recfields
+
+%right EXP
+%right FUNDEC
 %left OR
 %left AND
-%nonassoc EQ NEQ LT GT LE GE
+%nonassoc EQ NEQ LE GE LT GT
 %left PLUS MINUS
 %left TIMES DIVIDE
 %left UMINUS
 
-%type <exp> exp program voidexp seqexp
-%type <var> lvalue
-%type <expList> args exps
-%type <ty> ty
-%type <dec> dec vardec 
-%type <fundec> fundec
-%type <fundecList> fundecs
-%type <namety> tydec
-%type <nametyList> tydecs
-%type <decList> decs
-%type <field> tyfield
-%type <fieldList> tyfields
-%type <efield> recorditem 
-%type <efieldList> recorditems
+%nonassoc IFX
+%nonassoc ELSE
 
-/* Lab3: One solution: you can fill the following rules directly.
- * Of course, you can modify (add, delete or change) any rules.
- */
 %start program
 
 %%
 
-program: exp  {absyn_root=$1;}
+program:   exp    {absyn_root=$1;}
 
-exp: ID
-   | exp AND exp {$$=A_IfExp(EM_tokPos,$1,$3,A_IntExp(EM_tokPos,0));}
-   | exp OR exp {$$=A_IfExp(EM_tokPos,$1,A_IntExp(EM_tokPos,1),$3);}
+/* example:
+ * exp:   ID         {$$=A_VarExp(EM_tokPos,A_SimpleVar(EM_tokPos,S_Symbol($1)));} 
+ */
 
+/* expressions */
 
-exps:
+exp:      valexp        %prec EXP   {$$ = $1;}
+    |     assignexp                 {$$ = $1;}
+    |     whileexp                  {$$ = $1;}
+    |     forexp                    {$$ = $1;}
+    |     BREAK                     {$$ = A_BreakExp(EM_tokPos);}
 
-seqexp:    
-	  
-recorditem:
+valexp:   lvalue                    {$$ = A_VarExp(EM_tokPos, $1);}
+    |     constexp                  {$$ = $1;}
+    |     seqlist                   {$$ = $1;}
+    |     callexp                   {$$ = $1;}
+    |     opexp                     {$$ = $1;}
+    |     recexp                    {$$ = $1;}
+    |     arrayexp                  {$$ = $1;}
+    |     letexp                    {$$ = $1;}
+    |     ifexp                     {$$ = $1;}
 
-recorditems: 
+/* declarations */
 
-voidexp: 
-	   
-args: 
+decs:   dec                         {$$ = A_DecList($1, NULL);}
+    |   dec decs                    {$$ = A_DecList($1, $2);}
 
-tyfield: 
-	
-tyfields: 
-	
-ty: 
- 
-tydec: 
+dec:    tydecs                      {$$ = A_TypeDec(EM_tokPos, $1);}
+    |   vardec                      {$$ = $1;}
+    |   fundecs                     {$$ = A_FunctionDec(EM_tokPos, $1);}
 
-tydecs: 
+tydecs: tydec                       {$$ = A_NametyList($1, NULL);}
+    |   tydec tydecs                {$$ = A_NametyList($1, $2);}
 
-vardec: 
+tydec:  TYPE ID EQ ty               {$$ = A_Namety(S_Symbol($2), $4);}
 
-fundec: 
-	
-fundecs: 
+ty:     ID                          {$$ = A_NameTy(EM_tokPos, S_Symbol($1));}
+    |   LBRACE tyfields RBRACE      {$$ = A_RecordTy(EM_tokPos, $2);}
+    |   ARRAY OF ID                 {$$ = A_ArrayTy(EM_tokPos, S_Symbol($3));}
 
-dec: 
+tyfields:                           {$$ = NULL;}
+    |     tyfield                   {$$ = A_FieldList($1, NULL); }
+    |     tyfield COMMA tyfields    {$$ = A_FieldList($1, $3); }
 
-decs: 
+tyfield:  ID COLON ID               {$$ = A_Field(EM_tokPos, S_Symbol($1), S_Symbol($3));}
 
-lvalue: 
+vardec:   VAR ID ASSIGN exp             {$$ = A_VarDec(EM_tokPos, S_Symbol($2), NULL, $4);}
+    |     VAR ID COLON ID ASSIGN exp    {$$ = A_VarDec(EM_tokPos, S_Symbol($2), S_Symbol($4), $6);}
+
+fundecs:  fundec                    {$$ = A_FundecList($1, NULL);}
+    |     fundec fundecs            {$$ = A_FundecList($1, $2);}
+
+fundec:   FUNCTION ID LPAREN tyfields RPAREN EQ exp             {$$ = A_Fundec(EM_tokPos, S_Symbol($2), $4, NULL, $7);}
+    |     FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp    {$$ = A_Fundec(EM_tokPos, S_Symbol($2), $4, S_Symbol($7), $9);}
+
+/* value expressions */
+
+constexp: INT                       {$$ = A_IntExp(EM_tokPos, $1);}
+    |     STRING                    {$$ = A_StringExp(EM_tokPos, $1);}
+    |     NIL                       {$$ = A_NilExp(EM_tokPos);}
+
+lvalue:   ID                        {$$ = A_SimpleVar(EM_tokPos, S_Symbol($1));}
+          /* corner case for lvalue & arrayexp */
+    |     ID LBRACK exp RBRACK      {$$ = A_SubscriptVar(EM_tokPos, A_SimpleVar(EM_tokPos, S_Symbol($1)), $3);}
+    |     lvalue DOT ID             {$$ = A_FieldVar(EM_tokPos, $1, S_Symbol($3));}
+    |     lvalue LBRACK exp RBRACK  {$$ = A_SubscriptVar(EM_tokPos, $1, $3);}
+
+arrayexp: ID LBRACK exp RBRACK OF exp           {$$ = A_ArrayExp(EM_tokPos, S_Symbol($1), $3, $6);}
+
+seqlist:  LPAREN exps RPAREN                    {$$ = A_SeqExp(EM_tokPos, $2);}
+    |     LPAREN RPAREN                         {$$ = A_SeqExp(EM_tokPos, NULL);}
+
+exps:     exp                                   {$$ = A_ExpList($1, NULL);}
+    |     exp SEMICOLON exps                    {$$ = A_ExpList($1, $3);}
+
+callexp:  ID LPAREN RPAREN                      {$$ = A_CallExp(EM_tokPos, S_Symbol($1), NULL);}
+    |     ID LPAREN funcargs RPAREN             {$$ = A_CallExp(EM_tokPos, S_Symbol($1), $3);}
+
+funcargs: exp                                   {$$ = A_ExpList($1, NULL);}
+    |     exp COMMA funcargs                    {$$ = A_ExpList($1, $3);}
+
+opexp:    valexp PLUS valexp  %prec PLUS        {$$ = A_OpExp(EM_tokPos, A_plusOp, $1, $3);}
+    |     valexp MINUS valexp  %prec MINUS      {$$ = A_OpExp(EM_tokPos, A_minusOp, $1, $3);}
+    |     valexp TIMES valexp  %prec TIMES      {$$ = A_OpExp(EM_tokPos, A_timesOp, $1, $3);}
+    |     valexp DIVIDE valexp  %prec DIVIDE    {$$ = A_OpExp(EM_tokPos, A_divideOp, $1, $3);}
+    |     MINUS valexp   %prec UMINUS           {$$ = A_OpExp(EM_tokPos, A_minusOp, A_IntExp(EM_tokPos, 0), $2);}
+    |     valexp EQ valexp %prec EQ             {$$ = A_OpExp(EM_tokPos, A_eqOp, $1, $3);}
+    |     valexp NEQ valexp  %prec NEQ          {$$ = A_OpExp(EM_tokPos, A_neqOp, $1, $3);}
+    |     valexp GT valexp %prec GT             {$$ = A_OpExp(EM_tokPos, A_gtOp, $1, $3);}
+    |     valexp LT valexp %prec LT             {$$ = A_OpExp(EM_tokPos, A_ltOp, $1, $3);}
+    |     valexp GE valexp %prec GE             {$$ = A_OpExp(EM_tokPos, A_geOp, $1, $3);}
+    |     valexp LE valexp %prec LE             {$$ = A_OpExp(EM_tokPos, A_leOp, $1, $3);}
+    |     valexp AND valexp %prec AND           {
+                                                    $$ = A_IfExp(EM_tokPos,
+                                                        $1,
+                                                        $3,
+                                                        A_IntExp(EM_tokPos, 0));
+                                                }
+    |     valexp OR valexp %prec OR             {
+                                                    $$ = A_IfExp(EM_tokPos,
+                                                        $1,
+                                                        A_IntExp(EM_tokPos, 1),
+                                                        $3);
+                                                }
+
+recexp:   ID LBRACE RBRACE                      {$$ = A_RecordExp(EM_tokPos, S_Symbol($1), NULL);}
+    |     ID LBRACE recfields RBRACE            {$$ = A_RecordExp(EM_tokPos, S_Symbol($1), $3);}
+
+recfields:  recfield                            {$$ = A_EfieldList($1, NULL);}
+    |       recfield COMMA recfields            {$$ = A_EfieldList($1, $3);}
+
+recfield: ID EQ exp                             {$$ = A_Efield(S_Symbol($1), $3);}
+
+/* control flow expressions */
+
+assignexp:  lvalue ASSIGN exp                       {$$ = A_AssignExp(EM_tokPos, $1, $3);}
+
+ifexp:    IF valexp THEN exp           %prec IFX    {$$ = A_IfExp(EM_tokPos, $2, $4, A_NilExp(EM_tokPos));}
+    |     IF valexp THEN exp ELSE exp               {$$ = A_IfExp(EM_tokPos, $2, $4, $6);}
+
+whileexp: WHILE exp DO exp                          {$$ = A_WhileExp(EM_tokPos, $2, $4);}
+
+forexp:   FOR ID ASSIGN exp TO exp DO exp           {$$ = A_ForExp(EM_tokPos, S_Symbol($2), $4, $6, $8);}
+
+letexp:   LET decs IN exps END                      {$$ = A_LetExp(EM_tokPos, $2, A_SeqExp(EM_tokPos, $4));}

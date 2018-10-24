@@ -1,8 +1,12 @@
 %{
 #include <string.h>
 #include "util.h"
-#include "tokens.h"
+//#include "tokens.h"
 #include "errormsg.h"
+
+#include "symbol.h"
+#include "absyn.h"
+#include "y.tab.h"
 
 int charPos=1;
 
@@ -87,7 +91,8 @@ IDregExp [a-zA-Z][a-zA-Z0-9_]*
     if (string_buf[0] != '\0')
       yylval.sval=String(string_buf);
     else
-      yylval.sval=String("(null)"); /* Compatible with test case */
+      yylval.sval=String(""); /* Compatible with test case */
+      //yylval.sval=String("(null)"); /* Compatible with test case */
     BEGIN(INITIAL);
     return STRING;
   } /* comment starting */
