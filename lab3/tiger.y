@@ -24,7 +24,7 @@ void yyerror(char *s)
 	string sval;
 	A_var var;
 	A_exp exp;
-	/* et cetera */
+
     A_dec dec;
     A_ty ty;
     A_field field;
@@ -52,7 +52,7 @@ void yyerror(char *s)
   FUNCTION VAR TYPE 
 
 /* et cetera */
-%type <exp> exp program valexp constexp arrayexp seqlist callexp opexp recexp assignexp ifexp whileexp forexp letexp
+%type <exp> exp program letexp valexp constexp arrayexp seqlist callexp opexp recexp assignexp ifexp whileexp forexp 
 %type <var> lvalue
 %type <dec> dec vardec
 %type <ty> ty
@@ -82,14 +82,11 @@ void yyerror(char *s)
 %start program
 
 %%
-
 program:   exp    {absyn_root=$1;}
 
-/* example:
- * exp:   ID         {$$=A_VarExp(EM_tokPos,A_SimpleVar(EM_tokPos,S_Symbol($1)));} 
- */
-
 /* expressions */
+
+letexp:   LET decs IN exps END                      {$$ = A_LetExp(EM_tokPos, $2, A_SeqExp(EM_tokPos, $4));}
 
 exp:      valexp        %prec EXP   {$$ = $1;}
     |     assignexp                 {$$ = $1;}
@@ -198,7 +195,7 @@ recfields:  recfield                            {$$ = A_EfieldList($1, NULL);}
 
 recfield: ID EQ exp                             {$$ = A_Efield(S_Symbol($1), $3);}
 
-/* control flow expressions */
+/* Control Flow Expressions */
 
 assignexp:  lvalue ASSIGN exp                       {$$ = A_AssignExp(EM_tokPos, $1, $3);}
 
@@ -209,4 +206,4 @@ whileexp: WHILE exp DO exp                          {$$ = A_WhileExp(EM_tokPos, 
 
 forexp:   FOR ID ASSIGN exp TO exp DO exp           {$$ = A_ForExp(EM_tokPos, S_Symbol($2), $4, $6, $8);}
 
-letexp:   LET decs IN exps END                      {$$ = A_LetExp(EM_tokPos, $2, A_SeqExp(EM_tokPos, $4));}
+

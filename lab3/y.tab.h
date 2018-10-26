@@ -149,7 +149,7 @@ typedef union YYSTYPE
 	string sval;
 	A_var var;
 	A_exp exp;
-	/* et cetera */
+
     A_dec dec;
     A_ty ty;
     A_field field;
