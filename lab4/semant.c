@@ -13,6 +13,7 @@
 /*Lab4: Your implementation of lab4*/
 
 
+
 typedef void* Tr_exp;
 struct expty 
 {
@@ -29,5 +30,9 @@ struct expty expTy(Tr_exp exp, Ty_ty ty)
 	e.ty = ty;
 
 	return e;
+}
+
+void SEM_transProg(A_exp exp){
+	printf("\nImSEM_transProg\n");
 }
 

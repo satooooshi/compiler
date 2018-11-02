@@ -73,6 +73,7 @@ struct A_exp_
 	} u;
 };
 
+
 struct A_dec_ 
 {
 	enum {A_functionDec, A_varDec, A_typeDec} kind;
