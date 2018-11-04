@@ -42,7 +42,6 @@ fi
 				rm -f __ref.txt
 				if [[ $SYS != "Linux" ]]; then
 					cat _ref.txt >> __ref.txt
-					cat _ref.txt >> __ref.txt
 					rm _ref.txt
 					mv __ref.txt _ref.txt
 				fi
