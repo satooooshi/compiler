@@ -24,29 +24,7 @@ A_exp parse(string fname)
  else return NULL;
 }
 
-/*
-used for component testing
-*/
-void testScope(){
-
-
-
-  S_table t=S_empty();
-  S_enter(t, S_Symbol("greeting"), "goodbye");
-  S_beginScope(t);
-  S_enter(t, S_Symbol("greeting"), "hello");
-  printf("sym:%s\n", S_look(t,S_Symbol("greeting")) );
-  S_endScope(t);
-  printf("sym:%s\n", S_look(t,S_Symbol("greeting")) );
-
-
-  return ;
-}
-
 int main(int argc, char **argv){
-
-  //testScope();
-
   if(argc != 2){
     fprintf(stderr,"usage: a.out filename\n");
     exit(1);
@@ -55,8 +33,10 @@ int main(int argc, char **argv){
   parse(argv[1]);
   //pr_exp(stderr,absyn_root,0);
   if (absyn_root){
-  	SEM_transProg(absyn_root);
+  	SEM_transProg(absyn_root);//absyn_root ==A_exp
   } 
   fprintf(stderr,"\n");
   return 0;
 }
+
+

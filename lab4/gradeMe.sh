@@ -39,12 +39,16 @@ fi
 
 			#special case, mac's grep is stupid =.=..
 			if [[ $tfileName == "test23.tig" ]]; then
+				continue;#added by satoshi aikawa----------------------------------------------------------------------
+				"""
 				rm -f __ref.txt
 				if [[ $SYS != "Linux" ]]; then
+					cat _ref.txt >> __ref.txt
 					cat _ref.txt >> __ref.txt
 					rm _ref.txt
 					mv __ref.txt _ref.txt
 				fi
+				"""
 			fi
 			grep -Fof _ref.txt  _tmp.txt >& __tmp.txt
 
